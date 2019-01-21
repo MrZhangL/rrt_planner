@@ -57,17 +57,11 @@ namespace srrt_planner {
     if(!initialized_){
       costmap_ros_ = costmap_ros;
       costmap_ = costmap_ros_->getCostmap();
-      /*
 
-      ros::NodeHandle nh("global_rrt_frontier_detector");
-      ros::Publisher pub = nh.advertise<visualization_msgs::Marker>(ns+"_shapes", 10);
-
-      */
       ros::NodeHandle node("~/srrt_planner");
       node_handle_ = node;
       world_model_ = new base_local_planner::CostmapModel(*costmap_);
 
-      /*****************/
       pub_ = node.advertise<visualization_msgs::Marker>("visualization_marker",1);
       /*node_handle_.getParam("/move_base/step_size", step_size_);
       node_handle_.getParam("/move_base/delta", delta_);
@@ -76,7 +70,6 @@ namespace srrt_planner {
       ROS_INFO("Step size: %.2f, goal radius: %.2f, delta: %.2f, max "
                "iterations: %d", step_size_, goal_radius_, delta_,
                max_iterations_);*/
-
 
      //visualizations  points and lines..
      points_.header.frame_id="/robot_1/map";
@@ -88,7 +81,6 @@ namespace srrt_planner {
      points_.id = 0;
      line_.id =1;
 
-
      points_.type = points_.POINTS;
      line_.type=line_.LINE_LIST;
 
@@ -99,8 +91,8 @@ namespace srrt_planner {
      line_.pose.orientation.w = 1.0;
      line_.scale.x =  0.02;
      line_.scale.y= 0.02;
-     points_.scale.x=0.16; 
-     points_.scale.y=0.16; 
+     points_.scale.x=0.1; 
+     points_.scale.y=0.1; 
 
      line_.color.r =9.0/255.0;
      line_.color.g= 236.0/255.0;
@@ -136,9 +128,6 @@ namespace srrt_planner {
             obstacle_map_.push_back(true);
         }
       }
-
-
-
       // Display info message
       ROS_INFO("RRT planner initialized successfully.");
       initialized_ = true;
@@ -243,7 +232,7 @@ namespace srrt_planner {
     std::uniform_real_distribution<> s(0, 100);
 
     judge = s(rd);
-    if(judge > 30)
+    if(judge > 40)
     {
        random_point.first = x(rd);
        random_point.second = y(rd);
@@ -261,7 +250,6 @@ namespace srrt_planner {
     bool done = false;
     int goal_index = -1;
     current_iterations_ = 0;
-    int sx,sy;
 
     // Run until we either find the goal or reach the max iterations
     while (!done && current_iterations_ < max_iterations_) {
@@ -308,7 +296,6 @@ namespace srrt_planner {
 
     // closest_distance will keep track of the closest distance we find
     float closest_distance = std::numeric_limits<float>::infinity();
-
     // current_distance will keep track of the distance of the current
     float current_distance = std::numeric_limits<float>::infinity();
 
@@ -330,16 +317,9 @@ namespace srrt_planner {
 
   float srrtPlanner::GetDistance(std::pair<float, float> start_point,
                                  std::pair<float, float> end_point) {
-    // coords for our first point
-    float x1 = start_point.first;
-    float y1 = start_point.second;
-
-    // coords for our second point
-    float x2 = end_point.first;
-    float y2 = end_point.second;
-
     // euclidean distance
-    float distance = sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2));
+    float distance = sqrt(pow((start_point.first - end_point.first), 2) + 
+                                        pow((start_point.second - end_point.second), 2));
 
     ROS_DEBUG("Distance: %.5f", distance);
     return distance;
@@ -350,20 +330,16 @@ namespace srrt_planner {
     
     float x_closest = vertex_list_.at(closest_vertex).get_location().first;
     float y_closest = vertex_list_.at(closest_vertex).get_location().second;
-    float x_random = random_point.first;
-    float y_random = random_point.second;
-    
+
     // get the angle between the random point and our closest point (in rads)
-    float theta = atan2(y_random - y_closest, x_random - x_closest);
+    float theta = atan2(random_point.second - y_closest, random_point.first - x_closest);
 
     float new_x,new_y;
+    double new_wx,new_wy;
     // proposed new point step_size_ from our closest vertex towards
     // the random point
-
-      new_x = round(x_closest + step_size_ * cos(theta));
-      new_y = round(y_closest + step_size_ * sin(theta));
-
-    double new_wx,new_wy;
+    new_x = round(x_closest + step_size_ * cos(theta));
+    new_y = round(y_closest + step_size_ * sin(theta));
 
     new_x = std::max(0 , (int)new_x); new_x = std::min(map_width_cells_-1 , (unsigned int)new_x);
     new_y = std::max(0 , (int)new_y); new_y = std::min(map_height_cells_-1, (unsigned int)new_y);
@@ -380,18 +356,16 @@ namespace srrt_planner {
     std::pair<float, float> proposed_point(new_x, new_y);
     std::pair<float, float> closest_point(x_closest, y_closest);
     
-    ROS_DEBUG("check safe00~");
     // Check if the path between closest_vertex and the new point
     // is safe
     if (IsSafe(closest_point, proposed_point)) {
       // If safe, add new Vertex to the back of vertex_list_
-      ROS_DEBUG("check safe11~");
       srrt_planner::Vertex new_vertex(new_x, new_y, vertex_list_.size(),
                                        closest_vertex);
       ROS_DEBUG("Added new vertex at: %.5f, %.5f, index: %d",
                new_x, new_y, new_vertex.get_index());
       addVertex(new_vertex);
-
+      /************/
     	p_.x=new_wx; 
 	  	p_.y=new_wy; 
 		  p_.z=0.0;
@@ -403,25 +377,17 @@ namespace srrt_planner {
 		  p_.z=0.0;
 	 	  line_.points.push_back(p_);
       pub_.publish(line_); 
-
+      /************/
       // Return true, that we moved towards the proposed point
       return true;
     }
-
     // Return false, move not made
     return false;
   }
 
   bool srrtPlanner::IsSafe(std::pair<float, float> start_point,
                            std::pair<float, float> end_point) {
-    //unsigned int map_x, map_y;
 
-    // first check to make sure the end point is safe. Saves us processing
-    // time if somebody wants to jump into the middle of an obstacle
-    //costmap_->worldToMap(end_point.first, end_point.second, map_x, map_y);
-    //if (!obstacle_map_.at(map_y * map_height_cells_ + map_x))
-    ROS_DEBUG("Testing proposed point %.5f, %.5f.", end_point.first,
-                                                    end_point.second);
     if (costmap_->getCost((unsigned int)end_point.first, (unsigned int)end_point.second) > lethal_cost_)
         return false;
 
@@ -446,8 +412,7 @@ namespace srrt_planner {
                                                    current_y);
       unsigned int ad_x = ceil(current_x);
       unsigned int ad_y = ceil(current_y);
-      // convert world coords to map coords
-      //costmap_->worldToMap(current_x, current_y, map_x, map_y);
+
       ad_x = std::max(0 , (int)ad_x); ad_x = std::min(map_width_cells_-1 , ad_x);
       ad_y = std::max(0 , (int)ad_y); ad_y = std::min(map_height_cells_-1 , ad_y);
      
@@ -457,8 +422,7 @@ namespace srrt_planner {
 
       ad_x = floor(current_x);
       ad_y = floor(current_y);
-      // convert world coords to map coords
-      //costmap_->worldToMap(current_x, current_y, map_x, map_y);
+
       ad_x = std::max(0 , (int)ad_x); ad_x = std::min(map_width_cells_-1 , ad_x);
       ad_y = std::max(0 , (int)ad_y); ad_y = std::min(map_height_cells_-1 , ad_y);
      
@@ -468,8 +432,7 @@ namespace srrt_planner {
 
       ad_x = floor(current_x);
       ad_y = ceil(current_y);
-      // convert world coords to map coords
-      //costmap_->worldToMap(current_x, current_y, map_x, map_y);
+
       ad_x = std::max(0 , (int)ad_x); ad_x = std::min(map_width_cells_-1 , ad_x);
       ad_y = std::max(0 , (int)ad_y); ad_y = std::min(map_height_cells_-1 , ad_y);
      
@@ -479,8 +442,7 @@ namespace srrt_planner {
 
       ad_x = ceil(current_x);
       ad_y = floor(current_y);
-      // convert world coords to map coords
-      //costmap_->worldToMap(current_x, current_y, map_x, map_y);
+
       ad_x = std::max(0 , (int)ad_x); ad_x = std::min(map_width_cells_-1 , ad_x);
       ad_y = std::max(0 , (int)ad_y); ad_y = std::min(map_height_cells_-1 , ad_y);
      
@@ -564,17 +526,9 @@ namespace srrt_planner {
         }
       }
       plan.push_back(goal);
-      /*unsigned int map_x, map_y;
-      for (geometry_msgs::PoseStamped p : plan) {
-        costmap_->worldToMap(p.pose.position.x, p.pose.position.y,
-                             map_x, map_y);
-        ROS_INFO("x: %.2f (%d), y: %.2f (%d)", p.pose.position.x,
-                                               map_x,
-                                               p.pose.position.y,
-                                               map_y);
-      }*/
       return plan;
   }
 
 
 };
+
