@@ -1,0 +1,209 @@
+<?xml version="1.0" ?>
+<robot name="xbot">
+
+    <link name="base_link">
+        <visual>
+            <origin xyz=" 0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.34 0.395 0.04" />
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 0.95"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="left_up_wheel_joint" type="continuous">
+        <origin xyz="0.115 0.1625 -0.04" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="left_up_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+   <link name="left_up_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5707 0 0" />
+            <geometry>
+                <cylinder radius="0.0375" length = "0.04"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+   <joint name="right_up_wheel_joint" type="continuous">
+        <origin xyz="-0.115 0.1625 -0.04" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="right_up_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+   <link name="right_up_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5707 0 0" />
+            <geometry>
+                <cylinder radius="0.0375" length = "0.04"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+ <joint name="left_down_wheel_joint" type="continuous">
+        <origin xyz="0.115 -0.1625 -0.04" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="left_down_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+   <link name="left_down_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5707 0 0" />
+            <geometry>
+                <cylinder radius="0.0375" length = "0.04"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+   <joint name="right_down_wheel_joint" type="continuous">
+        <origin xyz="-0.115 -0.1625 -0.04" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="right_down_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+   <link name="right_down_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5707 0 0" />
+            <geometry>
+                <cylinder radius="0.0375" length = "0.04"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+  <joint name="left_up_support_joint" type="fixed">
+        <origin xyz="0.0525 0.0425 0.0925" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="left_up_support"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+
+
+    <link name="left_up_support"> 
+        <visual>
+            <origin xyz=" 0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.015 0.015 0.145" />
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+<joint name="right_up_support_joint" type="fixed">
+        <origin xyz="-0.0525 0.0425 0.0925" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="right_up_support"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+
+
+    <link name="right_up_support"> 
+        <visual>
+            <origin xyz=" 0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.015 0.015 0.145" />
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+<joint name="left_down_support_joint" type="fixed">
+        <origin xyz="0.0525 -0.0425 0.0925" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="left_down_support"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+
+
+    <link name="left_down_support"> 
+        <visual>
+            <origin xyz=" 0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.015 0.015 0.145" />
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+<joint name="right_down_support_joint" type="fixed">
+        <origin xyz="-0.0525 -0.0425 0.0925" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="right_down_support"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+
+
+    <link name="right_down_support"> 
+        <visual>
+            <origin xyz=" 0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.015 0.015 0.145" />
+            </geometry>
+            <material name="yellow">
+                <color rgba="1 0.4 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+<joint name="support_link_joint" type="fixed">
+        <origin xyz="0 0 0.165" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="support_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+
+ <link name="support_link">
+        <visual>
+            <origin xyz=" 0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.12 0.1 0.003" />
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 0.95"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="laser_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 1.5708"/>
+            <geometry>
+                <mesh filename="package://xbot_description/meshes/rplidar-a2m4-r1.stl" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="laser_joint" type="fixed">
+        <origin xyz="0 0 0.185" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="laser_link"/>
+    </joint>
+
+
+
+</robot>

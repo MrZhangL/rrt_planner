@@ -1,0 +1,23 @@
+<!--
+  Used for visualising the turtlebot while building a map or navigating with the ros navistack.
+ -->
+<launch>
+
+ <arg name="model" />
+	<arg name="gui" default="False" />
+	<param name="robot_description" textfile="$(find xbot_description)/urdf/urdf/xbot.urdf" />
+	<param name="use_gui" value="$(arg gui)"/>
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+	    <!-- 设置GUI参数，显示关节控制插件 -->
+	<param name="use_gui" value="$(arg gui)"/>
+
+	<node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
+        <rosparam file="$(find xbot_description)/config/fake_xbot_arbotix.yaml" command="load" />
+        <param name="sim" value="true"/>
+    </node>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find xbot_navigation)/rviz/navigation.rviz"/>
+
+</launch>

@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<robot name="xbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- PROPERTY LIST -->
+    <xacro:property name="M_PI" value="3.1415926"/>  
+
+    <xacro:property name="wheel_radius" value="0.0375"/>
+    <xacro:property name="wheel_length" value="0.04"/>  
+    <xacro:property name="wheel_joint_x" value="0.115"/>
+    <xacro:property name="wheel_joint_y" value="0.1625"/>
+    <xacro:property name="wheel_joint_z" value="0.04"/>
+
+    <!-- Defining the colors used in this robot -->
+    <material name="yellow">
+        <color rgba="1 0.4 0 1"/>
+    </material>
+    <material name="black">
+        <color rgba="0 0 0 0.95"/>
+    </material>
+    <material name="gray">
+        <color rgba="0.75 0.75 0.75 1"/>
+    </material>
+
+<!-- Macro for inertia matrix -->
+    <xacro:macro name="sphere_inertial_matrix" params="m r">
+        <inertial>
+            <mass value="${m}" />
+            <inertia ixx="${2*m*r*r/5}" ixy="0" ixz="0"
+                iyy="${2*m*r*r/5}" iyz="0" 
+                izz="${2*m*r*r/5}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertial_matrix" params="m r h">
+        <inertial>
+            <mass value="${m}" />
+            <inertia ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+                iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+                izz="${m*r*r/2}" /> 
+        </inertial>
+    </xacro:macro>
+
+
+    
+    <!-- Macro for robot wheel -->
+    <xacro:macro name="wheel" params="prefix prefix1 reflect reflect1">
+        <joint name="${prefix}_${prefix1}_wheel_joint" type="continuous">
+            <origin xyz="${reflect*wheel_joint_x} ${reflect1*wheel_joint_y} ${-wheel_joint_z}" rpy="0 0 0"/>
+            <parent link="base_link"/>
+            <child link="${prefix}_${prefix1}_wheel_link"/>
+            <axis xyz="0 1 0"/>
+        </joint>
+
+        <link name="${prefix}_${prefix1}_wheel_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length = "${wheel_length}"/>
+                </geometry>
+                <material name="yellow" />
+            </visual>
+        </link>
+    </xacro:macro>
+
+        <xacro:wheel prefix="left" prefix1="front" reflect="1" reflect1="1"/>
+        <xacro:wheel prefix="right" prefix1="back" reflect="-1" reflect1="-1"/>
+        <xacro:wheel prefix="left" prefix1="back" reflect="-1" reflect1="1"/>
+        <xacro:wheel prefix="right" prefix1="front" reflect="1" reflect1="-1"/>
+
+
+        
+
+
+<!-- Macro for robot xbot_base -->
+    <xacro:macro name="xbot_support">
+
+ <link name="support_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                     <box size="0.1 0.12 0.148" />
+                </geometry>
+                <material name="gray" />
+            </visual>
+        </link>
+
+        <joint name="base_joint" type="fixed">
+            <origin xyz="0 0 0.094" rpy="0 0 0"/>
+            <parent link="base_link"/>
+            <child link="support_link" />
+        </joint>
+
+
+        <link name="laser">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <cylinder radius="0.0375" length = "0.04"/>
+                </geometry>
+                <material name="black" />
+            </visual>
+        </link>
+
+        <joint name="laser_joint" type="fixed">
+            <origin xyz="0 0 0.188" rpy="0 0 0"/>
+            <parent link="base_link"/>
+            <child link="laser" />
+        </joint>
+ 
+       
+    </xacro:macro>
+
+<xacro:xbot_support />
+
+  <!-- Macro for robot xbot_base -->
+    <xacro:macro name="xbot_base">
+
+    <link name="base_footprint">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </visual>
+        </link>
+
+        <joint name="base_footprint_joint" type="fixed">
+            <origin xyz="0 0 0.0975" rpy="0 0 0" />        
+            <parent link="base_footprint"/>
+            <child link="base_link" />
+        </joint>
+ 
+      <link name="base_link">
+            <visual>
+                <origin xyz=" 0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.34 0.395 0.04" />
+                </geometry>
+                <material name="gray" />
+            </visual>
+        </link>
+ 
+     
+    </xacro:macro>
+<xacro:xbot_base />
+</robot>

@@ -1,0 +1,10 @@
+<launch>
+
+    <include file="$(find xbot_navigation)/launch/gmapping.launch"/>
+    <include file="$(find xbot_navigation)/launch/move_base.launch"/>
+    <include file="$(find xbot_navigation)/launch/amcl.launch"/>
+
+    <!-- 启动rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find xbot_navigation)/rviz/gmapping.rviz"/>
+
+</launch>

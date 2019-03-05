@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/terminal/catkin_ws/src/xbot_bringup/cmake-build-debug/devel/setup.sh
