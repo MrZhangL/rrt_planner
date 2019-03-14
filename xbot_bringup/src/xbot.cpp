@@ -1,6 +1,7 @@
 #include <vector> 
 #include "xbot_bringup/xbot.h" 
 #include <iostream>
+#include "tf/transform_datatypes.h"
 using namespace std;
 namespace xbot 
 
@@ -233,14 +234,14 @@ bool xbot::readSpeed(Speed *speed)
 
 } 
 
-void xbot::CalculateOdom(){
+void xbot::CalculateOdom(const sensor_msgs::Imu imu){
 
     ros::Time curr_time; 
         // 积分计算里程计信息，更改为四个编码器的计算 
     vy_ = (vel_left_front.odoemtry_float - vel_right_front.odoemtry_float + vel_left_back.odoemtry_float - vel_right_back.odoemtry_float)/4/ 10000;
     vx_ = (vel_left_front.odoemtry_float + vel_right_front.odoemtry_float + vel_left_back.odoemtry_float + vel_right_back.odoemtry_float)/4/ 10000;
-    vth_= 0.1*(-vel_left_front.odoemtry_float + vel_right_front.odoemtry_float - vel_left_back.odoemtry_float + vel_right_back.odoemtry_float) / 2/(ROBOT_WIDTH + ROBOT_LENGTH);
-
+    //vth_= 0.1*(-vel_left_front.odoemtry_float + vel_right_front.odoemtry_float - vel_left_back.odoemtry_float + vel_right_back.odoemtry_float) / 2/(ROBOT_WIDTH + ROBOT_LENGTH);
+    vth_ = imu.angular_velocity.z - 0.01;
     curr_time = ros::Time::now(); 
 
     double dt = (curr_time - last_time_).toSec(); 
@@ -251,6 +252,9 @@ void xbot::CalculateOdom(){
     x_ += delta_x; 
     y_ += delta_y; 
     th_ += delta_th; 
+
+    ROS_INFO("current theta is: %lf",th_);
+    //ROS_INFO("current angular_velocity is: lf",vth_);
 
     last_time_ = curr_time;     
 }
@@ -278,7 +282,7 @@ void xbot::writeSpeed(double RobotV, double YawRate ,const sensor_msgs::Imu imu)
     // the tf::Quaternion has a method to acess roll pitch and yaw
     
     tf::Matrix3x3(quat).getRPY(Roll, Pitch, Yaw);
-//ROS_INFO("published rpy angles: Yaw=%f", Yaw);
+    ROS_INFO("published rpy angles: Yaw=%f", Yaw);
    // Yaw=angles::normalize_angle_positive(Yaw);
 //geometry_msgs::Vector3 rpy;
     // the found angles are written in a geometry_msgs::Vector3
@@ -395,7 +399,7 @@ bool xbot::trans(double RobotV, double YawRate,const sensor_msgs::Imu imu)
      ROS_INFO("received%f,%f,%f,%f",vel_left_front.odoemtry_float,vel_right_front.odoemtry_float,
      vel_left_back.odoemtry_float,vel_right_back.odoemtry_float);
 
-    CalculateOdom();
+    CalculateOdom(imu);
   //ros::Time::init(); 
    //  current_time_ = ros::Time::now(); 
     // last_time_ = ros::Time::now(); 
@@ -413,17 +417,19 @@ bool xbot::trans(double RobotV, double YawRate,const sensor_msgs::Imu imu)
     odom_trans.transform.translation.x = x_; 
     odom_trans.transform.translation.y = y_; 
     odom_trans.transform.translation.z = 0.0; 
-   // odom_trans.transform.rotation = odom_quat; 
+    odom_trans.transform.rotation = odom_quat; 
 
 //odom_trans.transform.rotation = tf::createQuaternionMsgFromYaw(th);
-    odom_trans.transform.rotation.x = imu.orientation.x;
-    odom_trans.transform.rotation.y = imu.orientation.y;
-    odom_trans.transform.rotation.z = imu.orientation.z;
-    odom_trans.transform.rotation.w = imu.orientation.w;
+    //odom_trans.transform.rotation.x = imu.orientation.x;
+    //odom_trans.transform.rotation.y = imu.orientation.y;
+    //odom_trans.transform.rotation.z = imu.orientation.z;
+    //odom_trans.transform.rotation.w = imu.orientation.w;
+
+
 
      
     //发送转换
-  // odom_broadcaster_.sendTransform(odom_trans); 
+   odom_broadcaster_.sendTransform(odom_trans); 
 
     // 发布里程计消息 （使用里程数据填充消息，并发送出去）
     nav_msgs::Odometry odom; 
@@ -434,15 +440,15 @@ bool xbot::trans(double RobotV, double YawRate,const sensor_msgs::Imu imu)
     odom.pose.pose.position.x = x_; 
     odom.pose.pose.position.y = y_; 
     odom.pose.pose.position.z = 0.0; 
-  //  odom.pose.pose.orientation = odom_quat; //更改注释
+    odom.pose.pose.orientation = odom_quat; //更改注释
     //odom.pose.covariance = odom_pose_covariance; 
 	
 		
 //odom.pose.pose.orientation = odom_quat;
-   odom.pose.pose.orientation.x = imu.orientation.x;
-   odom.pose.pose.orientation.y = imu.orientation.y;
-   odom.pose.pose.orientation.z = imu.orientation.z;
-   odom.pose.pose.orientation.w = imu.orientation.w;
+   //odom.pose.pose.orientation.x = imu.orientation.x;
+   //odom.pose.pose.orientation.y = imu.orientation.y;
+   //odom.pose.pose.orientation.z = imu.orientation.z;
+   //odom.pose.pose.orientation.w = imu.orientation.w;
 
    odom.pose.covariance[0] = (1e-3);
    odom.pose.covariance[7] = (1e-3);

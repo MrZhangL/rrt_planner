@@ -41,7 +41,7 @@
     </node>
 -->
  <!---->
- <node name="base_imu_link" pkg="tf" type="static_transform_publisher" args="0 0 0.105 0 0 0  /base_footprint /base_imu_link 50"/>
+ <!--node name="base_imu_link" pkg="tf" type="static_transform_publisher" args="0 0 0.105 3 0 0  /base_footprint /base_imu_link 50"/-->
 
 <!--
 <node pkg="rbx1_bringup" type="odom_ekf.py" name="odom_ekf" output="screen">
@@ -52,9 +52,9 @@
 
 
 <!-- -->
-<node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+<!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
     <rosparam command="load" file="$(find xbot_bringup)/config/robot_localization.yaml" />
-  </node>
+  </node-->
 
     <!-- 运行imu
     

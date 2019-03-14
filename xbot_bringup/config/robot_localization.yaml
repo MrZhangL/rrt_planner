@@ -9,10 +9,10 @@ odom0: /odom
 #               true, true, true,
 #               false, false, true,
 #               false, false, false]
-odom0_config: [false, false, false,
+odom0_config: [true, true, false,
                false, false, false,
                true, false, false,
-               false, false, true,
+               false, false, false,
                false, false, false]
 odom0_differential: false
 

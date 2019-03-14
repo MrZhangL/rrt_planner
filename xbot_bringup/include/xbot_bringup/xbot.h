@@ -38,7 +38,7 @@ public:
 
 private:
     bool readSpeed(Speed *speed);
-    void CalculateOdom();
+    void CalculateOdom(const sensor_msgs::Imu imu);
     void writeSpeed(double RobotV, double YawRate,const sensor_msgs::Imu imu);
     unsigned char getCrc8(unsigned char *ptr, unsigned short len);
    
