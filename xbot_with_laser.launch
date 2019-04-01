@@ -1,0 +1,63 @@
+<launch>
+
+    <!-- 启动xbot -->
+    <node pkg="xbot_bringup" type="xbot_bringup" name="xbot_bringup" output="screen" />
+
+    <!-- 加载机器人模型参数 -->
+    <!-- this launch file corresponds to robot model in ros-pkg/robot_descriptions/pr2/erratic_defs/robots for full erratic -->
+	<arg name="model" />
+	<arg name="gui" default="False" />
+	<param name="robot_description" textfile="$(find xbot_bringup)/urdf/xbot.urdf" />
+	<param name="use_gui" value="$(arg gui)"/>
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+	    <!-- 设置GUI参数，显示关节控制插件 
+	<param name="use_gui" value="$(arg gui)"/>
+
+	<node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
+        <rosparam file="$(find xbot_description)/config/fake_xbot_arbotix.yaml" command="load" />
+        <param name="sim" value="true"/>
+    </node>
+-->
+
+
+    <!-- 里程计估算 
+
+-->
+ <!--
+    <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+        <remap from="robot_pose_ekf/odom_combined" to="odom_combined"/>
+        <param name="base_footprint_frame" value="base_footprint"/>
+        <param name="freq" value="100.0"/>
+        <param name="sensor_timeout" value="1.0"/>
+        <param name="publish_tf" value="true"/>
+        <param name="odom_used" value="true"/>
+        <param name="imu_used" value="true"/>
+        <param name="vo_used" value="true"/>
+        <param name="output_frame" value="odom"/>
+
+        <remap from="imu_data" to="imu" /> 
+    </node>
+-->
+ <!---->
+ <!--node name="base_imu_link" pkg="tf" type="static_transform_publisher" args="0 0 0.105 3 0 0  /base_footprint /base_imu_link 50"/-->
+
+<!--
+<node pkg="rbx1_bringup" type="odom_ekf.py" name="odom_ekf" output="screen">
+    <remap from="input" to="/odom_combined"/>
+    <remap from="output" to="/odom_ekf"/>
+  </node>
+-->
+
+
+<!-- -->
+<!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+    <rosparam command="load" file="$(find xbot_bringup)/config/robot_localization.yaml" />
+  </node-->
+
+    <!-- 运行imu
+    
+    <include file="$(find xbot_bringup)/launch/razor-pub.launch" /> -->
+   <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find xbot_bringup)/config/config1.rviz" /--> 
+</launch>
