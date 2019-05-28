@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/install_isolated
+
+Name: srrt_planner
+Description: Description of srrt_planner
+Version: 1.14.4
+Cflags: -I/home/zhang/catkin_learn/install_isolated/include
+Libs: -L/home/zhang/catkin_learn/install_isolated/lib -lsrrt_planner
+Requires: roscpp pluginlib costmap_2d base_local_planner nav_core

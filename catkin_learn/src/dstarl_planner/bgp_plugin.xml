@@ -1,0 +1,7 @@
+<library path="lib/libdstarl_planner">
+  <class name="dstarl_planner/dstarlPlanner" type="dstarl_planner::dstarlPlanner" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>
+      path plan by D* lite planner.
+    </description>
+  </class>
+</library>

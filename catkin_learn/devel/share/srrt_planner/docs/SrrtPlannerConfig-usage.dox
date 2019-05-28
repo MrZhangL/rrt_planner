@@ -1,0 +1,9 @@
+\subsubsection usage Usage
+\verbatim
+<node name="srrt_planner" pkg="srrt_planner" type="srrt_planner">
+  <param name="lethal_cost" type="int" value="253" />
+  <param name="neutral_cost" type="int" value="50" />
+  <param name="cost_factor" type="double" value="3.0" />
+</node>
+\endverbatim
+

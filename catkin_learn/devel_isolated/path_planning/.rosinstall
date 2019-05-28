@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/zhang/catkin_learn/devel_isolated/path_planning/setup.sh

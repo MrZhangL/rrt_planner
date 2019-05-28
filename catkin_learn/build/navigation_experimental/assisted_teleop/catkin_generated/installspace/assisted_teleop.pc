@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/install
+
+Name: assisted_teleop
+Description: Description of assisted_teleop
+Version: 0.2.1
+Cflags: -I/home/zhang/catkin_learn/install/include -I/usr/include/eigen3
+Libs: -L/home/zhang/catkin_learn/install/lib -llaser_scan_filters
+Requires: tf costmap_2d roscpp roslib geometry_msgs move_base_msgs actionlib message_filters base_local_planner angles pluginlib sensor_msgs filters

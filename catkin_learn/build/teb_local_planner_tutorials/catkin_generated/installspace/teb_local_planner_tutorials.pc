@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/install
+
+Name: teb_local_planner_tutorials
+Description: Description of teb_local_planner_tutorials
+Version: 0.2.3
+Cflags: 
+Libs: -L/home/zhang/catkin_learn/install/lib 
+Requires: 

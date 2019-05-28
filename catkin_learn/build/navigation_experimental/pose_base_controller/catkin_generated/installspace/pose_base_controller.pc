@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/install
+
+Name: pose_base_controller
+Description: Description of pose_base_controller
+Version: 0.2.1
+Cflags: -I/home/zhang/catkin_learn/install/include
+Libs: -L/home/zhang/catkin_learn/install/lib 
+Requires: actionlib move_base_msgs nav_msgs roscpp tf geometry_msgs

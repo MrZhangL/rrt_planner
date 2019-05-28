@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/devel_isolated/learning_tf
+
+Name: learning_tf
+Description: Description of learning_tf
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/zhang/catkin_learn/devel_isolated/learning_tf/lib 
+Requires: 

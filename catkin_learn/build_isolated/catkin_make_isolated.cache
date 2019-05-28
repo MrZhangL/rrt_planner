@@ -1,0 +1,2 @@
+learning_communication:learning_tf:mbot:mbot_bringup:navigation:path_planning:robot_move:rrt_exploration:rrt_exploration_tutorials:srrt_planner:training_tf:turtle_rotation
+-DCMAKE_BUILD_TYPE=Debug -G Unix Makefiles -DCATKIN_DEVEL_PREFIX=/home/zhang/catkin_learn/devel_isolated -DCMAKE_INSTALL_PREFIX=/home/zhang/catkin_learn/install_isolated

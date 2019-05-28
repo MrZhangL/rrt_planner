@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/install
+
+Name: tf2_kdl
+Description: Description of tf2_kdl
+Version: 0.6.5
+Cflags: -I/home/zhang/catkin_learn/install/include -I/usr/include/eigen3 -I/opt/ros/kinetic/include
+Libs: -L/home/zhang/catkin_learn/install/lib /opt/ros/kinetic/lib/liborocos-kdl.so.1.3.0
+Requires: 

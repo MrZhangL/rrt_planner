@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/devel_isolated/rrt_exploration
+
+Name: rrt_exploration
+Description: Description of rrt_exploration
+Version: 1.0.0
+Cflags: -I/home/zhang/catkin_learn/devel_isolated/rrt_exploration/include
+Libs: -L/home/zhang/catkin_learn/devel_isolated/rrt_exploration/lib 
+Requires: message_runtime

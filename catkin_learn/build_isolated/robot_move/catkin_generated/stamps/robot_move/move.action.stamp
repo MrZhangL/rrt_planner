@@ -1,0 +1,12 @@
+# Define the goal
+float32 x
+float32 y
+float32 z  # Specify where the robot should go
+---
+# Define the result
+bool finish
+---
+# Define a feedback message
+float32 n_x
+float32 n_y
+float32 n_z

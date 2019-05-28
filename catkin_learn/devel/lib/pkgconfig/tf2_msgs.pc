@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/devel
+
+Name: tf2_msgs
+Description: Description of tf2_msgs
+Version: 0.6.5
+Cflags: -I/home/zhang/catkin_learn/devel/include -I/home/zhang/catkin_learn/src/geometry2/tf2_msgs/include
+Libs: -L/home/zhang/catkin_learn/devel/lib 
+Requires: message_generation geometry_msgs actionlib_msgs

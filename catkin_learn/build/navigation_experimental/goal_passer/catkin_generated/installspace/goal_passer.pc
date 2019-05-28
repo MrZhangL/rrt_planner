@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/install
+
+Name: goal_passer
+Description: Description of goal_passer
+Version: 0.2.1
+Cflags: -I/home/zhang/catkin_learn/install/include
+Libs: -L/home/zhang/catkin_learn/install/lib -lgoal_passer
+Requires: roscpp costmap_2d pluginlib nav_core

@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/devel
+
+Name: tf2_eigen
+Description: Description of tf2_eigen
+Version: 0.6.5
+Cflags: -I/home/zhang/catkin_learn/src/geometry2/tf2_eigen/include -I/usr/include/eigen3
+Libs: -L/home/zhang/catkin_learn/devel/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/devel
+
+Name: dstarl_planner
+Description: Description of dstarl_planner
+Version: 1.14.4
+Cflags: -I/home/zhang/catkin_learn/src/dstarl_planner/include
+Libs: -L/home/zhang/catkin_learn/devel/lib -ldstarl_planner
+Requires: roscpp pluginlib costmap_2d nav_core global_planner

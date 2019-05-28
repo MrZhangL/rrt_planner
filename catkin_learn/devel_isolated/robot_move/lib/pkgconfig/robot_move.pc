@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/devel_isolated/robot_move
+
+Name: robot_move
+Description: Description of robot_move
+Version: 0.0.0
+Cflags: -I/home/zhang/catkin_learn/devel_isolated/robot_move/include
+Libs: -L/home/zhang/catkin_learn/devel_isolated/robot_move/lib 
+Requires: message_runtime

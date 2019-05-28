@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/devel_isolated/srrt_planner
+
+Name: srrt_planner
+Description: Description of srrt_planner
+Version: 1.14.4
+Cflags: -I/home/zhang/catkin_learn/src/srrt_planner/include
+Libs: -L/home/zhang/catkin_learn/devel_isolated/srrt_planner/lib -lsrrt_planner
+Requires: roscpp pluginlib costmap_2d base_local_planner nav_core

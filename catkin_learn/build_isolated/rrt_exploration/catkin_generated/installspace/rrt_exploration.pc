@@ -1,0 +1,8 @@
+prefix=/home/zhang/catkin_learn/install_isolated
+
+Name: rrt_exploration
+Description: Description of rrt_exploration
+Version: 1.0.0
+Cflags: -I/home/zhang/catkin_learn/install_isolated/include
+Libs: -L/home/zhang/catkin_learn/install_isolated/lib 
+Requires: message_runtime
